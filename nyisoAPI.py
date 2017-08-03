@@ -13,9 +13,6 @@ import numpy
 import calendar
 
 NUM_ZONES = 15
-NUM_USED_ZONES = 11
-NUM_HOURS = 24
-SKIP_ZONES = [4, 11, 12, 13]
 DST_SPRING = ['20160313', '20150308', '20170312']
 DST_FALL = ['20161106', '20151101']
 
@@ -286,15 +283,15 @@ def lineToMatrix(line):
         line = str.split(line, ",")
     hour = 0
     location = 0
-    matrix = numpy.zeros((NUM_HOURS, NUM_USED_ZONES))
+    matrix = numpy.zeros((NUM_HOURS, NUM_ZONES))
     for data in line:
       if (not data.isspace()):
         matrix[hour][location] = float(data)
-        if (location == NUM_USED_ZONES - 1):
+        if (location == NUM_ZONES - 1):
           hour += 1
         if (hour > 23):
           break
-        location = (location + 1) % NUM_USED_ZONES
+        location = (location + 1) % NUM_ZONES
     return matrix
 
 """
@@ -306,7 +303,7 @@ Brief: Assumes data is given in order of hour 0 for all locations, then hour 1
 def fileTo3DMatrix(filename):
     fid = open(filename, 'r')
     lines = fid.readlines()
-    matrix = numpy.zeros((len(lines), NUM_HOURS, NUM_USED_ZONES))
+    matrix = numpy.zeros((len(lines), NUM_HOURS, NUM_ZONES))
     lineNum = 0
     for line in lines:
         matrix[lineNum] = lineToMatrix(line)
