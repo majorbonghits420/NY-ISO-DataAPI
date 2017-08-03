@@ -11,6 +11,37 @@ import datetime
 # For creating matrices
 import numpy
 import calendar
+# Use enums for type of pricings and data.
+from enum import Enum, unique
+
+@unique
+class DataType(Enum):
+    ZONAL, GENERATOR, REFERENCE_BUS = range(3)
+
+    def urlStr(self):
+        return {
+            DataType.ZONAL         : "zone",
+            DataType.GENERATOR     : "gen",
+            DataType.REFERENCE_BUS : "gen_refbus"
+        }[self]
+
+@unique
+class MarketType(Enum):
+    DAY_AHEAD, REAL_TIME, INTEGRATED_RT = range(3)
+
+    def urlStr(self):
+        return {
+            MarketType.DAY_AHEAD : "damlbmp",
+            MarketType.REAL_TIME : "realtime",
+            MarketType.INTEGRATED_RT : "rtlbmp"
+            }[self]
+
+@unique
+class FileType(Enum):
+    CSV, PDF, HTM = range(3)
+
+    def urlStr(self):
+        return self.name.lower()
 
 NUM_ZONES = 15
 DST_SPRING = ['20160313', '20150308', '20170312']
